@@ -1,14 +1,23 @@
 package com.excel;
 
 import com.pojo.User;
+import com.service.UserService;
 import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +25,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/excel")
 public class Excel {
+
+    @Autowired
+    private UserService userService;
 
     private static final String[] title = {"id","name","age","birthday","address","desc"};
 
@@ -62,4 +74,41 @@ public class Excel {
             e.printStackTrace();
         }
     }
+
+
+    @RequestMapping("/exportUserList")
+    public void exportUserList(HttpServletRequest request, HttpServletResponse response){
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-disposition", "attachment;filename=export.xls");
+        //得到数据
+        List<User> list = userService.selectUserList();
+        //创建excel
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        //创建sheet页
+        HSSFSheet sheet = workbook.createSheet("sheet0");
+        //创建title
+        HSSFRow row = sheet.createRow(0);
+        for(int i=0;i<title.length;i++){
+            row.createCell(i).setCellValue(title[i]);
+        }
+        //追加数据
+        for(int i=0;i<list.size();i++){
+            HSSFRow row1 = sheet.createRow(i + 1);
+            row1.createCell(0).setCellValue(list.get(i).getId());
+            row1.createCell(1).setCellValue(list.get(i).getName());
+            row1.createCell(2).setCellValue(list.get(i).getAge());
+            row1.createCell(3).setCellValue(list.get(i).getBirthday());
+            row1.createCell(4).setCellValue(list.get(i).getAddress());
+            row1.createCell(5).setCellValue(list.get(i).getDesc());
+        }
+        try {
+            ServletOutputStream outputStream = response.getOutputStream();
+            workbook.write(outputStream);
+            outputStream.flush();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
