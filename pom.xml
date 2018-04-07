@@ -218,39 +218,30 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-
-            <!-- 這是项目编译 -->
+            <!-- 解决没有web.xml的打包报错 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.0.0</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                    <encoding>UTF-8</encoding>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
-            <!-- 這是部署主要插件 -->
+
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+
                 <configuration>
-                    <!-- 写上你服务器ip地址和tomcat端口-->
+                    <!-- tomcat管理路径,即ip端口等信息 -->
                     <url>http://47.104.195.216:8080/manager/text</url>
                     <username>admin</username>
                     <password>123456</password>
                     <update>true</update>
-                    <path>/webapp</path>
+                    <!-- 应用的部署位置 -->
+                    <path>/test</path>
                 </configuration>
-            </plugin>
-            <!--打包好所有依賴項目-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.0.2</version>
-                <!--<configuration>
-                    <warSourceExcludes>WEB-INF/lib/log4j-${log4j.version}.jar</warSourceExcludes>
-                </configuration>-->
             </plugin>
 
         </plugins>
