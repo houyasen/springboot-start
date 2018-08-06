@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>生日</th>
+        <th>地址</th>
+        <th>描述</th>
+    </tr>
+    <tr  th:each="user:${userList}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.age}"></td>
+        <th th:text="${#dates.format(user.birthday,'yyyy-MM-dd')}"></th>
+        <th th:text="${user.address}"></th>
+        <th th:text="${user.desc}"></th>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.pojo.Resource",
+      "name": "com.hys.opensource",
+      "type": "com.pojo.Resource"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.pojo.Resource",
+      "name": "com.hys.opensource.language",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.pojo.Resource",
+      "name": "com.hys.opensource.name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.pojo.Resource",
+      "name": "com.hys.opensource.website",
+      "type": "java.lang.String"
+    }
+  ]
+}
